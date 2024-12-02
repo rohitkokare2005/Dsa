@@ -1,0 +1,70 @@
+
+
+
+import java.util.Scanner;
+
+public class prims {
+    static final int INF = 100; 
+    static int v;
+
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+
+        System.out.println("Enter the number of vertices:");
+        v = s.nextInt();
+
+        int[][] cost = new int[v][v];
+        boolean[] selected = new boolean[v];
+
+        System.out.println("Enter the adjacency matrix:");
+        for (int i = 0; i < v; i++) {
+            for (int j = 0; j < v; j++) {
+                cost[i][j] = s.nextInt();
+                if (cost[i][j] == 0) {
+                    cost[i][j] = INF; 
+                }
+            }
+        }
+
+        System.out.println("The entered adjacency matrix is:");
+        for (int i = 0; i < v; i++) {
+            for (int j = 0; j < v; j++) {
+                if (cost[i][j] == INF) {
+                    System.out.print("INF ");
+                } else {
+                    System.out.print(cost[i][j] + " ");
+                }
+            }
+            System.out.println();
+        }
+
+        selected[0] = true;
+        int edgeCount = 0;
+        int mincost = 0;
+
+        while (edgeCount < v - 1) {
+            int min = INF;
+            int a = -1, b = -1;
+
+            for (int i = 0; i < v; i++) {
+                if (selected[i]) {
+                    for (int j = 0; j < v; j++) {
+                        if (selected[j]!=true && cost[i][j] < min) {
+                            min = cost[i][j];
+                            a = i;
+                            b = j;
+                        }
+                    }
+                }
+            }
+
+            if (a != -1 && b != -1) {
+                System.out.println("Edge " + (edgeCount++) + ": (" + a + ", " + b + ") cost: " + min);
+                mincost += min;
+                selected[b] = true;
+            }
+        }
+
+        System.out.println("Minimum cost of spanning tree: " + mincost);
+    }
+}
